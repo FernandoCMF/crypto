@@ -1,11 +1,14 @@
 from cryptography.fernet import Fernet
 
-###### Gerando uma chave e gravando ele em um arquivo
+with open('filekey.key', 'rb') as filekey:
+   key = filekey.read()
 
-key = Fernet.generate_key()
+fernet = Fernet(key)
 
-with open('filekey.key', 'wb') as filekey:
-   filekey.write(key)
+with open('teste.txt', 'rb') as fileTest:
+   content = fileTest.read()
 
+decrypted = fernet.decrypt(content)
 
-
+with open('teste.txt', 'wb') as fileTest_decrypted:
+   fileTest_decrypted.write(decrypted)
