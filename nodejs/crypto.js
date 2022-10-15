@@ -1,12 +1,11 @@
-const crypto = require('crypto');
+const fs = require('fs');
+const crypto = require('node:crypto');
 
-let mypassword = '12345678912345678912345678912345';
+const alg = 'aes-256-ctr';
+const passwd = 'abcdacbd';
 
-let iv = Buffer.from(crypto.randomBytes(16));
+const read = fs.createReadStream('teste.txt');
+const write = fs.createWriteStream('testeOutput.txt');
+const cipher = crypto.createCipher(alg, passwd);
 
-var mykey = crypto.createCipheriv('aes-128-cbc', Buffer.from(mypassword), iv);
-var mystr = mykey.update('abc', 'utf-8', 'hex');
-
-mystr += mykey.final('hex');
-
-console.log(mystr);
+read.pipe(cipher).pipe(write);
